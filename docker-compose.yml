@@ -17,7 +17,7 @@ services:
       - /root/item3/init/jupyter_config.py:/init/jupyter/jupyter_config.py:ro  # jupyter配置文件
       - /root/item3/init/lanyun-motd:/etc/lanyun-motd  # 登录欢迎语
       - /root/item3/init/set-repo.sh:/init/scripts/set-repo.sh  # 设置仓库源
-      - /root/item3/init/profile.sh:/etc/profile.d/profile.sh:ro  # 上网代理
+      #- /root/item3/init/profile.sh:/etc/profile.d/profile.sh:ro  # 上网代理
       - /root/item3/init/network_turbo:/etc/network_turbo:ro  # google代理
     deploy:
       resources:
