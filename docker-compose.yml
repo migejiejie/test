@@ -1,0 +1,59 @@
+version: '3'
+services:
+  my-ubuntu:
+    #image: ubuntu-ssh
+    #image: 10.75.13.4:5000/nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04-base-py3.10
+    image: 214.2.233.24:5000/lanyun/miniconda-conda3-py3.8-cuda11.3-u20.04:v1.2
+    #image: new:v1.1
+    ports:
+      - "22"
+      - "8888"
+      - "8080"
+    volumes:
+      #- /data/data-1/:/root/lanyun-tmp  # 数据盘
+      #- private_volume:/root/lanyun-fs  # 共享盘
+      #- public_volume:/root/lanyun-public  # 公共盘
+      - /root/item3/init/supervisor.ini:/init/supervisord/supervisor.ini:ro  # PID 1进程配置文件，启动ssh、jupyter
+      - /root/item3/init/jupyter_config.py:/init/jupyter/jupyter_config.py:ro  # jupyter配置文件
+      - /root/item3/init/lanyun-motd:/etc/lanyun-motd  # 登录欢迎语
+      - /root/item3/init/set-repo.sh:/init/scripts/set-repo.sh  # 设置仓库源
+      #- /root/item3/init/profile.sh:/etc/profile.d/profile.sh:ro  # 上网代理
+      - /root/item3/init/network_turbo:/etc/network_turbo:ro  # google代理
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 1G
+          #devices:
+          #  - driver: nvidia
+          #    count: 1
+          #    capabilities: ["gpu"]
+# nfs卷挂载方式
+#volumes:
+#  public_volume:
+#    driver: local
+#    driver_opts:
+#      type: nfs
+#      o: "addr=10.75.13.4,nolock,soft,ro"
+#      device: ":/data/public-storage" # 公共存储
+#  private_volume:
+#    driver: local
+#    driver_opts:
+#      type: nfs
+#      o: "addr=10.75.13.4,nolock,soft,rw"
+#      device: ":/data/private-storage/00000001" # 私人存储
+  #private_volume_2:
+  #  driver: local
+  #  driver_opts:
+  #    type: nfs
+  #    o: "addr=10.75.13.4,nolock,soft,rw"
+  #    device: ":/data/private-storage/00000002" # 私人存储
+  #private_volume_3:
+  #  driver: local
+  #  driver_opts:
+  #    type: nfs
+  #    o: "addr=10.75.13.4,nolock,soft,rw"
+  #    device: ":/data/private-storage/00000003" # 私人存储
